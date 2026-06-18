@@ -465,6 +465,16 @@ textarea {
   font-size: 14px;
 }
 
+.form-error {
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px solid rgba(143, 61, 60, 0.34);
+  border-radius: 8px;
+  color: #7c2f2f;
+  background: #fff3f0;
+  font-weight: 800;
+}
+
 .contact {
   background: #f7eee9;
 }
@@ -802,19 +812,19 @@ pre {
           </label>
           <label>
             香菇栗子素肉粽 NT$88
-            <input type="number" name="signature" min="0" value="2">
+            <input type="number" name="signature" min="0" step="1" inputmode="numeric" value="0">
           </label>
           <label>
             紅藜五穀素肉粽 NT$105
-            <input type="number" name="quinoa" min="0" value="0">
+            <input type="number" name="quinoa" min="0" step="1" inputmode="numeric" value="0">
           </label>
           <label>
             花生菜粽 NT$65
-            <input type="number" name="peanut" min="0" value="0">
+            <input type="number" name="peanut" min="0" step="1" inputmode="numeric" value="0">
           </label>
           <label>
             綜合素粽禮盒 NT$520
-            <input type="number" name="gift" min="0" value="1">
+            <input type="number" name="gift" min="0" step="1" inputmode="numeric" value="0">
           </label>
           <label class="wide">
             備註
@@ -822,8 +832,9 @@ pre {
           </label>
           <div class="order-total" aria-live="polite">
             <span>預估金額</span>
-            <strong id="totalAmount">NT$696</strong>
+            <strong id="totalAmount">NT$0</strong>
           </div>
+          <p class="form-error wide" id="orderError" hidden>請至少選擇 1 個品項。</p>
           <button class="button primary wide" type="submit">產生訂購摘要</button>
           <p class="form-note">冷凍商品以實際排單日出貨；大量訂購建議提前 7 天預約。金額未含冷凍宅配運費。</p>
         </form>
@@ -953,24 +964,56 @@ const dialog = document.querySelector("#orderDialog");
 const orderSummary = document.querySelector("#orderSummary");
 const closeDialog = document.querySelector("#closeDialog");
 const copyOrder = document.querySelector("#copyOrder");
+const orderError = document.querySelector("#orderError");
+
+const productKeys = Object.keys(prices);
+const quantityFields = productKeys.map((key) => form.elements[key]);
 
 function numberValue(name) {
   const field = form.elements[name];
-  return Math.max(0, Number.parseInt(field.value || "0", 10));
+  const value = Number(field.value);
+  if (!Number.isFinite(value)) {
+    return 0;
+  }
+  return Math.max(0, Math.floor(value));
+}
+
+function sanitizeQuantityField(field) {
+  if (!quantityFields.includes(field) || field.value === "") {
+    return;
+  }
+
+  const value = Number(field.value);
+  if (!Number.isFinite(value)) {
+    field.value = "0";
+    return;
+  }
+
+  const normalized = Math.max(0, Math.floor(value));
+  if (String(normalized) !== field.value) {
+    field.value = String(normalized);
+  }
 }
 
 function formatCurrency(value) {
-  return `NT${value.toLocaleString("zh-TW")}`;
+  return `NT$${value.toLocaleString("zh-TW")}`;
 }
 
 function calculateTotal() {
-  return Object.keys(prices).reduce((sum, key) => {
+  return productKeys.reduce((sum, key) => {
     return sum + numberValue(key) * prices[key];
   }, 0);
 }
 
 function updateTotal() {
   totalAmount.textContent = formatCurrency(calculateTotal());
+  if (calculateTotal() > 0) {
+    orderError.hidden = true;
+  }
+}
+
+function selectedItemCount() {
+  return productKeys.reduce((sum, key) => sum + numberValue(key), 0);
 }
 
 function buildSummary() {
@@ -981,7 +1024,7 @@ function buildSummary() {
   lines.push("");
   lines.push("品項：");
 
-  Object.keys(prices).forEach((key) => {
+  productKeys.forEach((key) => {
     const qty = numberValue(key);
     if (qty > 0) {
       lines.push(`- ${labels[key]} x ${qty} = ${formatCurrency(qty * prices[key])}`);
@@ -1000,10 +1043,18 @@ function buildSummary() {
   return lines.join("\n");
 }
 
-form.addEventListener("input", updateTotal);
+form.addEventListener("input", (event) => {
+  sanitizeQuantityField(event.target);
+  updateTotal();
+});
 
 form.addEventListener("submit", (event) => {
   event.preventDefault();
+  if (selectedItemCount() === 0) {
+    orderError.hidden = false;
+    form.elements.signature.focus();
+    return;
+  }
   orderSummary.textContent = buildSummary();
   dialog.showModal();
 });
