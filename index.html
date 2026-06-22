@@ -564,9 +564,15 @@ details p {
 
 .footer-meta {
   display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-content: start;
+}
+
+.footer-meta-row {
+  display: flex;
   flex-wrap: wrap;
   gap: 14px;
-  align-content: start;
 }
 
 .footer-meta span {
@@ -927,10 +933,14 @@ pre {
         <p>地址 新北市樹林區中興街 42 號</p>
       </div>
       <div class="footer-meta">
-        <span>電話 02-26820850</span>
-        <span>傳真 02-26820843</span>
-        <span>台灣本島冷凍宅配</span>
-        <span>實際商品以出貨批次為準</span>
+        <div class="footer-meta-row">
+          <span>電話 02-26820850</span>
+          <span>傳真 02-26820843</span>
+        </div>
+        <div class="footer-meta-row">
+          <span>台灣本島冷凍宅配</span>
+          <span>實際商品以出貨批次為準</span>
+        </div>
       </div>
     </footer>
 
