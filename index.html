@@ -208,7 +208,7 @@ h3 {
   background: #fff;
 }
 
-.dark-button {
+.button.dark-button {
   color: var(--pine);
   border-color: var(--line);
   background: var(--rice);
@@ -638,6 +638,8 @@ details p {
 
 dialog {
   width: min(620px, calc(100% - 28px));
+  max-height: calc(100vh - 28px);
+  overflow: auto;
   border: 0;
   border-radius: 8px;
   padding: 26px;
@@ -650,7 +652,24 @@ dialog::backdrop {
   background: rgba(23, 33, 29, 0.66);
 }
 
+dialog h2 {
+  margin-bottom: 10px;
+  font-size: 30px;
+  line-height: 1.2;
+}
+
+.dialog-note {
+  margin-bottom: 16px;
+  color: rgba(23, 33, 29, 0.72);
+}
+
+dialog .dialog-actions {
+  justify-content: flex-end;
+}
+
 pre {
+  max-height: 48vh;
+  overflow: auto;
   white-space: pre-wrap;
   word-break: break-word;
   padding: 16px;
@@ -727,6 +746,18 @@ pre {
   .order-total {
     flex-wrap: wrap;
     gap: 8px 16px;
+  }
+
+  dialog {
+    padding: 20px;
+  }
+
+  dialog pre {
+    max-height: 28vh;
+  }
+
+  dialog .dialog-actions .button {
+    flex: 1 1 160px;
   }
 }
 
@@ -883,8 +914,8 @@ pre {
       <section class="section order" id="order" aria-labelledby="order-title">
         <div class="order-copy">
           <p class="eyebrow dark">Order</p>
-          <h2 id="order-title">快速預訂</h2>
-          <p>填好數量後，系統會自動估算金額並產生訂單摘要。完成後可來電和我們確認口味、數量、到貨日與企業團購需求。</p>
+          <h2 id="order-title">快速填寫預訂內容</h2>
+          <p>選好數量後，系統會先估算商品金額並整理訂購內容。這個表單不會自動送出訂單；請複製內容後來電，由我們確認口味、數量、出貨日期與宅配運費。雙方確認後，才算完成預訂。</p>
         </div>
         <form class="order-form" id="orderForm">
           <label>
@@ -920,7 +951,7 @@ pre {
             <strong id="totalAmount">NT$0</strong>
           </div>
           <p class="form-error wide" id="orderError" hidden>請至少選擇 1 個品項。</p>
-          <button class="button primary wide" type="submit">產生訂購摘要</button>
+          <button class="button primary wide" type="submit">查看訂購內容</button>
           <p class="form-note">我們會依訂單安排冷凍商品的出貨日期；大量訂購建議至少提前 7 天預訂。商品價格不含冷凍宅配運費。</p>
         </form>
       </section>
@@ -1024,11 +1055,12 @@ pre {
     </footer>
 
     <dialog id="orderDialog" aria-labelledby="dialogTitle">
-      <h2 id="dialogTitle">訂單摘要</h2>
+      <h2 id="dialogTitle">確認訂購內容</h2>
+      <p class="dialog-note">以下內容尚未送出。請先檢查姓名、電話、品項與數量，再複製內容並來電確認。</p>
       <pre id="orderSummary"></pre>
       <div class="dialog-actions">
-        <button class="button ghost dark-button" id="copyOrder" type="button">複製摘要</button>
-        <button class="button primary" id="closeDialog" type="button">完成</button>
+        <button class="button ghost dark-button" id="copyOrder" type="button">複製訂購內容</button>
+        <button class="button primary" id="closeDialog" type="button">返回修改</button>
       </div>
     </dialog>
 
@@ -1107,7 +1139,8 @@ function selectedItemCount() {
 
 function buildSummary() {
   const lines = [];
-  lines.push("素肉粽專賣店訂單摘要");
+  lines.push("素肉粽專賣店訂購內容");
+  lines.push("狀態：尚未完成預訂");
   lines.push(`姓名：${form.elements.name.value}`);
   lines.push(`電話：${form.elements.phone.value}`);
   lines.push("");
@@ -1128,6 +1161,10 @@ function buildSummary() {
     lines.push("");
     lines.push(`備註：${note}`);
   }
+
+  lines.push("");
+  lines.push("提醒：商品價格不含冷凍宅配運費。");
+  lines.push("請來電 02-26820850 確認後，才算完成預訂。");
 
   return lines.join("\n");
 }
@@ -1175,7 +1212,7 @@ copyOrder.addEventListener("click", async () => {
 
   copyOrder.textContent = "已複製";
   window.setTimeout(() => {
-    copyOrder.textContent = "複製摘要";
+    copyOrder.textContent = "複製訂購內容";
   }, 1400);
 });
 
