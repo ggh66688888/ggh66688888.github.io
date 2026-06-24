@@ -5,9 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>素肉粽專賣店｜台灣素肉粽專賣店</title>
     <meta name="description" content="素肉粽專賣店提供香菇栗子素肉粽、紅藜五穀素肉粽、花生菜粽與端午禮盒，清楚標示素食種類、是否含蔥蒜與食物過敏原，全年可洽詢預訂與冷凍宅配。">
+    <link rel="canonical" href="https://ggh66688888.github.io/">
     <meta property="og:title" content="素肉粽專賣店｜台灣素肉粽專賣店">
     <meta property="og:description" content="無蛋奶，清楚標示素食種類、是否含蔥蒜與食物過敏原，全年可洽詢預訂與冷凍宅配。">
-    <meta property="og:image" content="">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://ggh66688888.github.io/">
     <meta name="theme-color" content="#203d32">
     <style>
 :root {
@@ -355,6 +357,7 @@ details {
 .product-specs {
   display: grid;
   gap: 8px;
+  min-width: 0;
   margin-top: 0;
   margin-bottom: 22px;
 }
@@ -363,6 +366,7 @@ details {
   display: grid;
   grid-template-columns: 1fr;
   gap: 4px;
+  min-width: 0;
   padding: 10px 0;
   border-top: 1px solid var(--line);
 }
@@ -375,9 +379,12 @@ details {
 }
 
 .product-specs dd {
+  min-width: 0;
   margin: 0;
   font-size: 14px;
   line-height: 1.6;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 @media (min-width: 681px) {
@@ -733,6 +740,7 @@ pre {
 
   .hero {
     min-height: 94vh;
+    padding-top: 96px;
   }
 
   .hero-content {
@@ -779,6 +787,16 @@ pre {
   }
 }
 
+@media (max-width: 300px) {
+  .split-heading {
+    font-size: 21px;
+  }
+
+  .product-specs dd {
+    font-size: 13px;
+  }
+}
+
 </style>
   </head>
   <body>
@@ -787,7 +805,7 @@ pre {
         <span class="brand-mark" aria-hidden="true">粽</span>
         <span>素肉粽專賣店</span>
       </a>
-      <nav>
+      <nav aria-label="主要導覽">
         <a href="#products">商品</a>
         <a href="#difference">特色</a>
         <a href="#order">訂購</a>
@@ -939,11 +957,11 @@ pre {
         <form class="order-form" id="orderForm">
           <label>
             姓名
-            <input name="name" autocomplete="name" maxlength="40" placeholder="王小粽" required>
+            <input name="name" autocomplete="name" maxlength="40" pattern=".*\S.*" title="請輸入姓名，不能只輸入空格" placeholder="王小粽" required>
           </label>
           <label>
             聯絡電話
-            <input type="tel" name="phone" autocomplete="tel" inputmode="tel" maxlength="20" placeholder="0912-345-678" required>
+            <input type="tel" name="phone" autocomplete="tel" inputmode="tel" maxlength="20" pattern="(?=.*[0-9])[0-9+\- ]{8,20}" title="請輸入 8 至 20 碼的電話號碼，可使用數字、空格、+、-" placeholder="0912-345-678" required>
           </label>
           <label>
             香菇栗子素肉粽 NT$88
@@ -969,7 +987,7 @@ pre {
             <span>預估金額</span>
             <strong id="totalAmount">NT$0</strong>
           </div>
-          <p class="form-error wide" id="orderError" hidden>請至少選擇 1 個品項。</p>
+          <p class="form-error wide" id="orderError" role="alert" aria-live="assertive" hidden>請至少選擇 1 個品項。</p>
           <button class="button primary wide" type="submit">查看訂購內容</button>
           <p class="form-note">來電確認訂購內容後，我們會安排出貨日期。大量訂購建議至少提前 7 天預訂。商品價格不含冷凍宅配運費。</p>
         </form>
@@ -1073,9 +1091,9 @@ pre {
       </div>
     </footer>
 
-    <dialog id="orderDialog" aria-labelledby="dialogTitle">
+    <dialog id="orderDialog" aria-labelledby="dialogTitle" aria-describedby="dialogDescription">
       <h2 id="dialogTitle">確認訂購內容</h2>
-      <p class="dialog-note">以下內容尚未送出。請先檢查姓名、電話、品項與數量，再複製內容並來電確認。</p>
+      <p class="dialog-note" id="dialogDescription">以下內容尚未送出。請先檢查姓名、電話、品項與數量，再複製內容並來電確認。</p>
       <pre id="orderSummary"></pre>
       <div class="dialog-actions">
         <button class="button ghost dark-button" id="copyOrder" type="button">複製訂購內容</button>
@@ -1160,15 +1178,15 @@ function buildSummary() {
   const lines = [];
   lines.push("素肉粽專賣店訂購內容");
   lines.push("狀態：尚未完成預訂");
-  lines.push(`姓名：${form.elements.name.value}`);
-  lines.push(`電話：${form.elements.phone.value}`);
+  lines.push(`姓名：${form.elements.name.value.trim()}`);
+  lines.push(`電話：${form.elements.phone.value.trim()}`);
   lines.push("");
   lines.push("品項：");
 
   productKeys.forEach((key) => {
     const qty = numberValue(key);
     if (qty > 0) {
-      lines.push(`- ${labels[key]} x ${qty} = ${formatCurrency(qty * prices[key])}`);
+      lines.push(`- ${labels[key]} × ${qty} = ${formatCurrency(qty * prices[key])}`);
     }
   });
 
