@@ -49,6 +49,15 @@ a {
   text-decoration: none;
 }
 
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+summary:focus-visible {
+  outline: 3px solid var(--amber);
+  outline-offset: 3px;
+}
+
 img {
   max-width: 100%;
   display: block;
@@ -552,6 +561,17 @@ textarea {
   font-weight: 800;
 }
 
+.noscript-note {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding: 12px 14px;
+  border: 1px solid rgba(143, 61, 60, 0.34);
+  border-radius: 8px;
+  color: #7c2f2f;
+  background: #fff3f0;
+  font-weight: 800;
+}
+
 .contact {
   background: #f7eee9;
 }
@@ -797,6 +817,18 @@ pre {
   }
 }
 
+@media (max-width: 260px) {
+  .split-heading {
+    font-size: 18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
 </style>
   </head>
   <body>
@@ -810,7 +842,7 @@ pre {
         <a href="#difference">特色</a>
         <a href="#order">訂購</a>
         <a href="#contact">聯絡</a>
-        <a href="#faq">FAQ</a>
+        <a href="#faq">常見問題</a>
       </nav>
     </header>
 
@@ -827,9 +859,9 @@ pre {
             <a class="button ghost" href="#products">看商品</a>
           </div>
           <dl class="hero-stats" aria-label="品牌重點">
-            <div><dt>4</dt><dd>款常態商品</dd></div>
-            <div><dt>本島</dt><dd>冷凍宅配</dd></div>
-            <div><dt>無</dt><dd>蛋奶與動物性原料</dd></div>
+            <div><dt>4</dt><dd>款商品</dd></div>
+            <div><dt>台灣本島</dt><dd>冷凍宅配</dd></div>
+            <div><dt>不含</dt><dd>蛋、奶與動物性原料</dd></div>
           </dl>
         </div>
       </section>
@@ -855,7 +887,7 @@ pre {
 
       <section class="section products" id="products" aria-labelledby="products-title">
         <div class="section-heading">
-          <p class="eyebrow dark">Menu</p>
+          <p class="eyebrow dark">商品</p>
           <h2 id="products-title">四款素粽選擇</h2>
           <p>招牌香菇栗子素肉粽、穀香紅藜五穀素肉粽、古早味花生菜粽與送禮綜合素粽禮盒，各有不同特色。餡料、素食種類、是否含蔥蒜與食物過敏原都清楚標示，自己吃好選，送禮也方便。</p>
         </div>
@@ -871,7 +903,7 @@ pre {
               <div><dt>食物過敏原</dt><dd>含大豆、花生及麩質（小麥類）</dd></div>
               <div><dt>重量</dt><dd>180g/顆</dd></div>
               <div><dt>保存</dt><dd>冷凍 -18°C，建議 30 天內食用</dd></div>
-              <div><dt>加熱</dt><dd>冷凍不需退冰。電鍋外鍋加入 1.5 個量米杯的水，蒸熟後再悶 10 分鐘；水煮時，水滾後轉中小火煮 25 至 30 分鐘。</dd></div>
+              <div><dt>加熱</dt><dd>冷凍不需退冰。電鍋外鍋加入 1.5 杯水（使用電鍋量米杯），蒸熟後再悶 10 分鐘；水煮時，水滾後轉中小火煮 25 至 30 分鐘。</dd></div>
             </dl>
             <div class="price">NT$88</div>
           </article>
@@ -886,7 +918,7 @@ pre {
               <div><dt>食物過敏原</dt><dd>含大豆、花生及麩質（小麥類）</dd></div>
               <div><dt>重量</dt><dd>180g/顆</dd></div>
               <div><dt>保存</dt><dd>冷凍 -18°C，建議 30 天內食用</dd></div>
-              <div><dt>加熱</dt><dd>冷凍不需退冰。電鍋外鍋加入 1.5 個量米杯的水，蒸熟後再悶 10 分鐘；水煮時，水滾後轉中小火煮 25 至 30 分鐘。</dd></div>
+              <div><dt>加熱</dt><dd>冷凍不需退冰。電鍋外鍋加入 1.5 杯水（使用電鍋量米杯），蒸熟後再悶 10 分鐘；水煮時，水滾後轉中小火煮 25 至 30 分鐘。</dd></div>
             </dl>
             <div class="price">NT$105</div>
           </article>
@@ -901,7 +933,7 @@ pre {
               <div><dt>食物過敏原</dt><dd>含花生</dd></div>
               <div><dt>重量</dt><dd>160g/顆</dd></div>
               <div><dt>保存</dt><dd>冷凍 -18°C，建議 30 天內食用</dd></div>
-              <div><dt>加熱</dt><dd>冷凍不需退冰。電鍋外鍋加入 1.5 個量米杯的水，蒸熟後再悶 10 分鐘；水煮時，水滾後轉中小火煮 25 至 30 分鐘。</dd></div>
+              <div><dt>加熱</dt><dd>冷凍不需退冰。電鍋外鍋加入 1.5 杯水（使用電鍋量米杯），蒸熟後再悶 10 分鐘；水煮時，水滾後轉中小火煮 25 至 30 分鐘。</dd></div>
             </dl>
             <div class="price">NT$65</div>
           </article>
@@ -925,7 +957,7 @@ pre {
 
       <section class="section difference" id="difference" aria-labelledby="difference-title">
         <div class="section-heading">
-          <p class="eyebrow dark">Why Us</p>
+          <p class="eyebrow dark">特色</p>
           <h2 id="difference-title">吃素，也要吃得有滋味</h2>
           <p>我們重視粽葉香、餡料口感與飽足感，讓素粽適合日常正餐，也適合端午送禮。</p>
         </div>
@@ -950,11 +982,14 @@ pre {
 
       <section class="section order" id="order" aria-labelledby="order-title">
         <div class="order-copy">
-          <p class="eyebrow dark">Order</p>
+          <p class="eyebrow dark">預訂</p>
           <h2 id="order-title">快速填寫預訂內容</h2>
-          <p>選好數量後，系統會先估算商品金額並整理訂購內容。這個表單不會自動送出訂單；請複製內容後來電，由我們確認口味、數量、出貨日期與宅配運費。雙方確認後，才算完成預訂。</p>
+          <p id="order-intro">選好數量後，系統會先估算商品金額並整理訂購內容。這個表單不會自動送出訂單；請複製內容後來電，由我們確認口味、數量、出貨日期與宅配運費。雙方確認後，才算完成預訂。</p>
         </div>
-        <form class="order-form" id="orderForm">
+        <form class="order-form" id="orderForm" aria-labelledby="order-title" aria-describedby="order-intro form-note">
+          <noscript>
+            <p class="noscript-note">您的瀏覽器未啟用 JavaScript，無法自動計算金額或產生訂購內容。請直接來電 02-26820850 洽詢。</p>
+          </noscript>
           <label>
             姓名
             <input name="name" autocomplete="name" maxlength="40" pattern=".*\S.*" title="請輸入姓名，不能只輸入空格" placeholder="王小粽" required>
@@ -989,13 +1024,13 @@ pre {
           </div>
           <p class="form-error wide" id="orderError" role="alert" aria-live="assertive" hidden>請至少選擇 1 個品項。</p>
           <button class="button primary wide" type="submit">查看訂購內容</button>
-          <p class="form-note">來電確認訂購內容後，我們會安排出貨日期。大量訂購建議至少提前 7 天預訂。商品價格不含冷凍宅配運費。</p>
+          <p class="form-note" id="form-note">來電確認訂購內容後，我們會安排出貨日期。大量訂購建議至少提前 7 天預訂。商品價格不含冷凍宅配運費。</p>
         </form>
       </section>
 
       <section class="section contact" id="contact" aria-labelledby="contact-title">
         <div class="section-heading">
-          <p class="eyebrow dark">Contact</p>
+          <p class="eyebrow dark">聯絡</p>
           <h2 id="contact-title">聯絡我們</h2>
           <p>歡迎來電預訂，也可洽詢企業團購與端午禮盒。如果您不吃蔥、蒜等辛香料、對特定食物過敏，或需要配送到多個地址，請先來電告訴我們您的需求。</p>
         </div>
@@ -1025,7 +1060,7 @@ pre {
 
       <section class="section policies" aria-labelledby="policies-title">
         <div class="section-heading">
-          <p class="eyebrow dark">Service</p>
+          <p class="eyebrow dark">服務</p>
           <h2 id="policies-title">付款、配送與保存</h2>
           <p>來電預訂前，可以先了解付款、冷凍宅配與保存方式。</p>
         </div>
@@ -1050,7 +1085,7 @@ pre {
 
       <section class="section faq" id="faq" aria-labelledby="faq-title">
         <div class="section-heading">
-          <p class="eyebrow dark">FAQ</p>
+          <p class="eyebrow dark">常見問題</p>
           <h2 id="faq-title">常見問題</h2>
         </div>
         <div class="faq-list">
@@ -1064,7 +1099,7 @@ pre {
           </details>
           <details>
             <summary>怎麼加熱最好吃？</summary>
-            <p>冷凍不需退冰。電鍋外鍋加入 1.5 個量米杯的水，蒸熟後再悶 10 分鐘；水煮時，水滾後轉中小火煮 25 至 30 分鐘。</p>
+            <p>冷凍不需退冰。電鍋外鍋加入 1.5 杯水（使用電鍋量米杯），蒸熟後再悶 10 分鐘；水煮時，水滾後轉中小火煮 25 至 30 分鐘。</p>
           </details>
           <details>
             <summary>可以企業大量訂購嗎？</summary>
@@ -1096,7 +1131,7 @@ pre {
       <p class="dialog-note" id="dialogDescription">以下內容尚未送出。請先檢查姓名、電話、品項與數量，再複製內容並來電確認。</p>
       <pre id="orderSummary"></pre>
       <div class="dialog-actions">
-        <button class="button ghost dark-button" id="copyOrder" type="button">複製訂購內容</button>
+        <button class="button ghost dark-button" id="copyOrder" type="button" aria-live="polite">複製訂購內容</button>
         <button class="button primary" id="closeDialog" type="button">返回修改</button>
       </div>
     </dialog>
@@ -1235,19 +1270,22 @@ closeDialog.addEventListener("click", () => {
 });
 
 copyOrder.addEventListener("click", async () => {
+  let copied = false;
+
   try {
     await navigator.clipboard.writeText(orderSummary.textContent);
+    copied = true;
   } catch (error) {
     const range = document.createRange();
     range.selectNodeContents(orderSummary);
     const selection = window.getSelection();
     selection.removeAllRanges();
     selection.addRange(range);
-    document.execCommand("copy");
+    copied = document.execCommand("copy");
     selection.removeAllRanges();
   }
 
-  copyOrder.textContent = "已複製";
+  copyOrder.textContent = copied ? "已複製" : "請手動複製";
   window.setTimeout(() => {
     copyOrder.textContent = "複製訂購內容";
   }, 1400);
